@@ -26,7 +26,7 @@ jobs:
     # integration tests run in a container,
     # not in the worker, so this version is not relevant to the tests
     # and can be the same for all tested versions
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     name: ${{ matrix.name }}
     strategy:
@@ -108,7 +108,7 @@ jobs:
     # integration tests run in a container,
     # not in the worker, so this version is not relevant to the tests
     # and can be the same for all tested versions
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     name: ${{ matrix.name }}
     strategy:

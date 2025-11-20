@@ -210,14 +210,14 @@ def ensure_host_system_can_install_tljh():
     Check if TLJH is installable in current host system and exit with a clear
     error message otherwise.
     """
-    # Require Ubuntu 22.04+ or Debian 11+
+    # Require Ubuntu 24.04+ or Debian 11+
     distro = get_os_release_variable("ID")
     version = get_os_release_variable("VERSION_ID")
     if distro not in ["ubuntu", "debian"]:
         print("The Littlest JupyterHub currently supports Ubuntu or Debian Linux only")
         sys.exit(1)
-    elif distro == "ubuntu" and _parse_version(version) < (22, 4):
-        print("The Littlest JupyterHub requires Ubuntu 22.04 or higher")
+    elif distro == "ubuntu" and _parse_version(version) < (24, 4):
+        print("The Littlest JupyterHub requires Ubuntu 24.04 or higher")
         sys.exit(1)
     elif distro == "debian" and _parse_version(version) < (11,):
         print("The Littlest JupyterHub requires Debian 11 or higher")

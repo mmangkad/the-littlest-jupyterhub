@@ -2,7 +2,7 @@
 
 # Installing
 
-The Littlest JupyterHub (TLJH) can run on any server that is running **Debian 11** or **Ubuntu 20.04** or **22.04** on a amd64 or arm64 CPU architecture.
+The Littlest JupyterHub (TLJH) can run on any server that is running **Debian 11** or **Ubuntu 24.04** on a amd64 or arm64 CPU architecture.
 Earlier versions of Ubuntu and Debian are not supported, nor are other Linux distributions.
 We have a bunch of tutorials to get you started.
 
