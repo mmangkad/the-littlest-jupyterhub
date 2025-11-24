@@ -479,9 +479,34 @@ def main():
     logger.info("Upgrading pip...")
     run_subprocess([hub_env_pip, "install", "--upgrade", "pip"])
 
-    # Install uv for faster package installations
-    logger.info("Installing uv for faster package management...")
-    run_subprocess([hub_env_pip, "install", "--upgrade", "uv"])
+    # Install uv for faster package installations (if not already available)
+    if not os.path.exists("/usr/local/bin/uv-bin"):
+        logger.info("Installing uv for faster package management...")
+        run_subprocess(["curl", "-LsSf", "https://astral.sh/uv/install.sh", "-o", "/tmp/uv-install.sh"])
+        run_subprocess(["/bin/bash", "/tmp/uv-install.sh"])
+        # Move to system location and create wrapper
+        run_subprocess(["mv", "/root/.local/bin/uv", "/usr/local/bin/uv-bin"])
+        run_subprocess(["chmod", "+x", "/usr/local/bin/uv-bin"])
+        # Create wrapper script for TLJH
+        with open("/usr/local/bin/uv", "w") as f:
+            f.write('''#!/bin/bash
+# uv wrapper for TLJH - automatically targets the user conda environment
+#
+# Usage:
+#   uv pip install <pkg>        - installs to ~/.local (user-local)
+#   sudo -E uv pip install <pkg> - installs system-wide to /opt/tljh/user
+
+if [[ $EUID -eq 0 ]]; then
+    exec /usr/local/bin/uv-bin "$@" --python /opt/tljh/user/bin/python
+else
+    if [[ "$1" == "pip" && "$2" == "install" ]]; then
+        exec /usr/local/bin/uv-bin "$@" --python /opt/tljh/user/bin/python --prefix ~/.local
+    else
+        exec /usr/local/bin/uv-bin "$@" --python /opt/tljh/user/bin/python
+    fi
+fi
+''')
+        run_subprocess(["chmod", "+x", "/usr/local/bin/uv"])
 
     # pip install TLJH installer based on
     #
