@@ -33,6 +33,9 @@ STATE_DIR = os.path.join(INSTALL_PREFIX, "state")
 CONFIG_DIR = os.path.join(INSTALL_PREFIX, "config")
 CONFIG_FILE = os.path.join(CONFIG_DIR, "config.yaml")
 
+# UV binary path - installed to hub environment for fast package installs
+UV_BIN = os.path.join(HUB_ENV_PREFIX, "bin", "uv")
+
 
 @contextmanager
 def config_file_lock(config_path, timeout=1):

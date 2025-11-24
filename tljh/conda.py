@@ -14,6 +14,7 @@ import time
 import requests
 
 from tljh import utils
+from tljh import uv as uv_module
 
 
 def sha256_file(fname):
@@ -140,13 +141,10 @@ def ensure_conda_packages(
 def ensure_pip_packages(prefix, packages, upgrade=False):
     """
     Ensure pip packages are installed in the given conda prefix.
+
+    Uses uv for faster installation when available, falls back to pip otherwise.
     """
-    abspath = os.path.abspath(prefix)
-    pip_executable = [os.path.join(abspath, "bin", "python"), "-m", "pip"]
-    pip_cmd = pip_executable + ["install"]
-    if upgrade:
-        pip_cmd.append("--upgrade")
-    utils.run_subprocess(pip_cmd + packages)
+    uv_module.ensure_uv_packages(prefix, packages, upgrade=upgrade)
     fix_permissions(prefix)
 
 
@@ -155,11 +153,7 @@ def ensure_pip_requirements(prefix, requirements_path, upgrade=False):
     Ensure pip packages from given requirements_path are installed in given conda prefix.
 
     requirements_path can be a file or a URL.
+    Uses uv for faster installation when available, falls back to pip otherwise.
     """
-    abspath = os.path.abspath(prefix)
-    pip_executable = [os.path.join(abspath, "bin", "python"), "-m", "pip"]
-    pip_cmd = pip_executable + ["install"]
-    if upgrade:
-        pip_cmd.append("--upgrade")
-    utils.run_subprocess(pip_cmd + ["--requirement", requirements_path])
+    uv_module.ensure_uv_requirements(prefix, requirements_path, upgrade=upgrade)
     fix_permissions(prefix)

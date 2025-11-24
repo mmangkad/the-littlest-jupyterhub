@@ -25,7 +25,7 @@ dynamic_conf_file_path = os.path.join(INSTALL_PREFIX, "state", "rules", "rules.t
 c.TraefikFileProviderProxy.dynamic_config_file = dynamic_conf_file_path
 c.JupyterHub.proxy_class = "traefik_file"
 
-c.SystemdSpawner.extra_paths = [os.path.join(USER_ENV_PREFIX, "bin")]
+c.SystemdSpawner.extra_paths = [os.path.join(USER_ENV_PREFIX, "bin"), "/usr/local/bin"]
 c.SystemdSpawner.default_shell = "/bin/bash"
 # Drop the '-singleuser' suffix present in the default template
 c.SystemdSpawner.unit_name_template = "jupyter-{USERNAME}"

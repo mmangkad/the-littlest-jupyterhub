@@ -479,6 +479,10 @@ def main():
     logger.info("Upgrading pip...")
     run_subprocess([hub_env_pip, "install", "--upgrade", "pip"])
 
+    # Install uv for faster package installations
+    logger.info("Installing uv for faster package management...")
+    run_subprocess([hub_env_pip, "install", "--upgrade", "uv"])
+
     # pip install TLJH installer based on
     #
     #   1. --version, _resolve_git_version is used

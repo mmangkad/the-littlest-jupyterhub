@@ -13,7 +13,41 @@ RUN export DEBIAN_FRONTEND=noninteractive \
         git \
         sudo \
         python3 \
+        python3-pip \
+        python3-venv \
  && rm -rf /var/lib/apt/lists/*
+
+# Pre-install uv for faster package management during TLJH setup
+# This speeds up the bootstrap process significantly
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh \
+ && mv /root/.local/bin/uv /usr/local/bin/uv-bin \
+ && chmod +x /usr/local/bin/uv-bin
+
+# Create a wrapper script for uv that automatically uses the TLJH user environment
+# - Regular users: uv pip install <pkg> -> installs to ~/.local
+# - Admins (sudo): sudo -E uv pip install <pkg> -> installs system-wide to /opt/tljh/user
+COPY <<'EOF' /usr/local/bin/uv
+#!/bin/bash
+# uv wrapper for TLJH - automatically targets the user conda environment
+#
+# Usage:
+#   uv pip install <pkg>        - installs to ~/.local (user-local)
+#   sudo -E uv pip install <pkg> - installs system-wide to /opt/tljh/user
+
+# Check if running as root (sudo)
+if [[ $EUID -eq 0 ]]; then
+    # Running as root/sudo: install system-wide
+    exec /usr/local/bin/uv-bin "$@" --python /opt/tljh/user/bin/python
+else
+    # Regular user: install to user directory for pip install commands
+    if [[ "$1" == "pip" && "$2" == "install" ]]; then
+        exec /usr/local/bin/uv-bin "$@" --python /opt/tljh/user/bin/python --prefix ~/.local
+    else
+        exec /usr/local/bin/uv-bin "$@" --python /opt/tljh/user/bin/python
+    fi
+fi
+EOF
+RUN chmod +x /usr/local/bin/uv
 
 # Kill all the things we don't need
 RUN find /etc/systemd/system \
