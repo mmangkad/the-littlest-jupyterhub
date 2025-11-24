@@ -28,9 +28,13 @@ class UserCreatingSpawner(SystemdSpawner):
         if self.user.admin:
             self.disable_user_sudo = False
             user.ensure_user_group(system_username, "jupyterhub-admins")
+            # Allow admins to access GPU
+            self.environment.pop("CUDA_VISIBLE_DEVICES", None)
         else:
             self.disable_user_sudo = True
             user.remove_user_group(system_username, "jupyterhub-admins")
+            # Disable GPU access for non-admin users
+            self.environment["CUDA_VISIBLE_DEVICES"] = "-1"
         if self.user_groups:
             for group, users in self.user_groups.items():
                 if self.user.name in users:
