@@ -9,19 +9,19 @@
 #          our integration tests fail.
 #
 # ref: https://github.com/jupyter/notebook
-notebook>=7.2.2,<8
+notebook
 
 # ref: https://github.com/jupyterlab/jupyterlab
-jupyterlab>=4.2.5,<5
+jupyterlab
 
 # nbgitpuller for easily pulling in Git repositories
 # ref: https://github.com/jupyterhub/nbgitpuller
-nbgitpuller>=1.2.1,<2
+nbgitpuller
 
 # jupyter-resource-usage to show people how much RAM they are using
 # ref: https://github.com/jupyter-server/jupyter-resource-usage
-jupyter-resource-usage>=1.1.0,<2
+jupyter-resource-usage
 
 # Most people consider ipywidgets to be part of the core notebook experience
 # ref: https://github.com/jupyter-widgets/ipywidgets
-ipywidgets>=8.1.5,<9
+ipywidgets

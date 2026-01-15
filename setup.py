@@ -12,14 +12,14 @@ setup(
     include_package_data=True,
     python_requires=">=3.9",
     install_requires=[
-        "ruamel.yaml==0.18.*",
+        "ruamel.yaml",
         "jinja2",
-        "pluggy==1.*",
+        "pluggy",
         "backoff",
         "filelock",
         "requests",
         "bcrypt",
-        "jupyterhub-traefik-proxy==2.*",
+        "jupyterhub-traefik-proxy",
     ],
     entry_points={
         "console_scripts": [
