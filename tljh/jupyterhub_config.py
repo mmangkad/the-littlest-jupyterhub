@@ -30,10 +30,23 @@ c.SystemdSpawner.default_shell = "/bin/bash"
 # Drop the '-singleuser' suffix present in the default template
 c.SystemdSpawner.unit_name_template = "jupyter-{USERNAME}"
 
-# Set default environment variables for all users
+# Set default environment variables for non-admin users
 c.Spawner.environment = {
     "CUDA_VISIBLE_DEVICES": "-1",
 }
+
+
+def _tljh_set_cuda_visible_devices(spawner):
+    env = dict(spawner.environment or {})
+    if getattr(getattr(spawner, "user", None), "admin", False):
+        if env.get("CUDA_VISIBLE_DEVICES") == "-1":
+            env.pop("CUDA_VISIBLE_DEVICES", None)
+    else:
+        env.setdefault("CUDA_VISIBLE_DEVICES", "-1")
+    spawner.environment = env
+
+
+c.Spawner.pre_spawn_hook = _tljh_set_cuda_visible_devices
 
 tljh_config = configurer.load_config()
 configurer.apply_config(tljh_config, c)
