@@ -225,7 +225,7 @@ def test_pip_upgrade(group, allowed):
                 "--no-user",
                 "--ignore-installed",
                 "--no-deps",
-                "testpath==0.3.0",
+                "testpath",
             ],
             preexec_fn=partial(setgroup, group),
         )

@@ -1,5 +1,5 @@
 # Systemd inside a Docker container, for CI and local development
-ARG BASE_IMAGE=nvcr.io/nvidia/cuda:13.0.2-cudnn-devel-ubuntu24.04
+ARG BASE_IMAGE=nvcr.io/nvidia/cuda:13.1.0-devel-ubuntu24.04
 FROM $BASE_IMAGE
 
 # DEBIAN_FRONTEND is set to avoid being asked for input and hang during build:
