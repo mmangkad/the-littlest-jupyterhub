@@ -137,11 +137,11 @@ def ensure_usergroups():
 
 # Install miniforge using an installer from
 # https://github.com/conda-forge/miniforge/releases
-MINIFORGE_VERSION = "24.7.1-2"
+MINIFORGE_VERSION = "26.3.2-3"
 # sha256 checksums
 MINIFORGE_CHECKSUMS = {
-    "aarch64": "7bf60bce50f57af7ea4500b45eeb401d9350011ab34c9c45f736647d8dba9021",
-    "x86_64": "636f7faca2d51ee42b4640ce160c751a46d57621ef4bf14378704c87c5db4fe3",
+    "aarch64": "2c113a69297e612b01ca0f320c22a3107a11f2ab9b573d79ac868a175945ce29",
+    "x86_64": "848194851a98903134187fbb4ab50efe87b003e0c0f808f97644b7524a62bf2c",
 }
 
 # minimum versions of packages
@@ -281,7 +281,12 @@ def ensure_user_environment(user_requirements_txt_file):
     # version specification used for the hub env.
     #
     with open(os.path.join(HERE, "requirements-hub-env.txt")) as f:
-        jh_version_spec = [l for l in f if l.startswith("jupyterhub>=")][0]
+        # WARNING: This relies on 'jupyterhub' appearing BEFORE any 'jupyterhub-*' packages
+        # in requirements-hub-env.txt. If re-ordering puts jupyterhub after jupyterhub-*
+        # packages, this will match the wrong package (e.g., jupyterhub-systemdspawner).
+        jh_version_spec = next(
+            s for l in f if (s := l.strip()).startswith("jupyterhub")
+        )
     conda.ensure_pip_packages(USER_ENV_PREFIX, [jh_version_spec], upgrade=True)
 
     # Install user environment extras for initial installations

@@ -64,7 +64,7 @@ progress_page_html = """
   <meta http-equiv="refresh" content="30" >
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <img class="logo" src="https://raw.githubusercontent.com/jupyterhub/the-littlest-jupyterhub/HEAD/docs/_static/images/logo/logo.png">
+  <img class="logo" src="https://raw.githubusercontent.com/mmangkad/the-littlest-jupyterhub/HEAD/docs/_static/images/logo/logo.png">
   <div class="loader center"></div>
   <div class="center main-msg">Please wait while your TLJH is setting up...</div>
   <div class="center logs-msg">Click the button below to see the logs</div>
@@ -306,7 +306,7 @@ def _resolve_git_version(version):
             "ls-remote",
             "--tags",
             "--refs",
-            "https://github.com/jupyterhub/the-littlest-jupyterhub.git",
+            "https://github.com/mmangkad/the-littlest-jupyterhub.git",
         ]
     )
 
@@ -491,7 +491,7 @@ def main():
     if args.version or not bootstrap_pip_spec:
         version_to_resolve = args.version or "latest"
         bootstrap_pip_spec = (
-            "git+https://github.com/jupyterhub/the-littlest-jupyterhub.git@{}".format(
+            "git+https://github.com/mmangkad/the-littlest-jupyterhub.git@{}".format(
                 _resolve_git_version(version_to_resolve)
             )
         )

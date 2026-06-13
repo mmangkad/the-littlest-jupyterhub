@@ -29,13 +29,13 @@ else:
     plat = None
 
 # Traefik releases: https://github.com/traefik/traefik/releases
-traefik_version = "3.6.5"
+traefik_version = "3.7.5"
 
 # record sha256 hashes for supported platforms here
 # checksums are published in the checksums.txt of each release
 checksums = {
-    "linux_amd64": "a9d891026496e0e16cbe4e0599339487411c9876246238c06bbe1a532350a096",
-    "linux_arm64": "801449a26d1389aa60bbb96e79a8ecc8c385b2e76b1dcaf487fd712c427b2831",
+    "linux_amd64": "9da81a928fde965c2c4678698bbc28bc3f600223b14c32b35bd480bf5ec863dc",
+    "linux_arm64": "9892c0974a3958d95f049d5dad3d751ba3597bdc33e96255d2369aad3d2bfeca",
 }
 
 _tljh_path = Path(__file__).parent.resolve()
